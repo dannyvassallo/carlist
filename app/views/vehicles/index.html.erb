@@ -1,14 +1,39 @@
 <h1>Vehicles#index</h1>
-
+<label>Vehicle Search</label>
 <%= form_tag(vehicles_path, :method => "get", id: "search-form") do %>
   <%= text_field_tag :search, params[:search].to_s, placeholder: "Search Vehicles" %>
   <%= submit_tag "Search" %>
 <% end %>
 
 <% if @vehicles.present? %>
+  <table>
+    <tr>
+      <td>Year:</td>
+      <td>Model:</td>
+      <td>Make:</td>
+      <td>Edit:</td>
+      <td>Destroy:</td>
+    </tr>
   <% @vehicles.each do |vehicle| %>
-    <%= "#{vehicle.year} #{vehicle.make} #{vehicle.model}" %><br>
+    <tr>
+      <td>
+        <%= vehicle.year %>
+      </td>
+      <td>
+        <%= vehicle.make %>
+      </td>
+      <td>
+        <%= vehicle.model %>
+      </td>
+      <td>
+        <%= link_to 'Edit', edit_vehicle_path(vehicle) %>
+      </td>
+      <td>
+        <%= link_to 'Delete', vehicle, method: :delete, data: {confirm: "Do you really want to delete the vehicle: #{vehicle.year} #{vehicle.make} #{vehicle.model}"}, :class => 'remove-btn' %>
+      </td>
+    </tr>
   <% end %>
+  </table>
   <%= will_paginate @vehicles %>
 <% else %>
   <p>Nothing found with the term(s) "<%= params[:search] %>".</p>
