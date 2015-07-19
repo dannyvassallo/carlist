@@ -1,0 +1,15 @@
+<h1>Vehicles#index</h1>
+
+<%= form_tag(vehicles_path, :method => "get", id: "search-form") do %>
+  <%= text_field_tag :search, params[:search].to_s, placeholder: "Search Vehicles" %>
+  <%= submit_tag "Search" %>
+<% end %>
+
+<% if @vehicles.present? %>
+  <% @vehicles.each do |vehicle| %>
+    <%= "#{vehicle.year} #{vehicle.make} #{vehicle.model}" %><br>
+  <% end %>
+  <%= will_paginate @vehicles %>
+<% else %>
+  <p>Nothing found with the term(s) "<%= params[:search] %>".</p>
+<% end %>
